@@ -10,3 +10,5 @@ build
 src/CommunicationControl/DevOpsProject.sln.DotSettings.user
 src/CommunicationControl/DevOpsProject.sln.DotSettings.user
 src/CommunicationControl/DevOpsProject.sln.DotSettings.user
+deployment/infrastructure/secrets/gitlab-cr.secret.sh:4
+src/CommunicationControl/DevOpsProject/appsettings.json:3
