@@ -110,10 +110,12 @@ jobs:
             docker push ${IMAGE_TAG,,}
 
       - name: Build and push frontend image
+        env:
+            IMAGE_TAG: ghcr.io/${{ github.repository_owner }}/${{ github.event.repository.name }}/map-client:${{ github.run_number }}
         run: |
-          docker build -t ghcr.io/${{ github.repository }}/map-client:${{ github.run_number }} \
+            docker build -t ${IMAGE_TAG,,} \
             src/MapClient
-          docker push ghcr.io/${{ github.repository }}/map-client:${{ github.run_number }}
+            docker push ${IMAGE_TAG,,}
 
   # =====================
   # СТАДІЯ 4 - ДЕПЛОЙ DEV
