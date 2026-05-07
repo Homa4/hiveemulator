@@ -28,7 +28,8 @@ internal class Program
         });
 
         // TODO: LATER - ADD OpenTelemtry
-
+        var connStr = builder.Configuration["Redis:ConnectionString"];
+        Console.WriteLine($"REDIS CONNECTION STRING: {connStr}");
         builder.Services.AddRedis(builder.Configuration);
         builder.Services.AddCommunicationControlLogic();
 
@@ -43,8 +44,7 @@ internal class Program
         builder.Services.AddProblemDetails();
 
         var app = builder.Build();
-        var connStr = builder.Configuration["Redis:ConnectionString"];
-Console.WriteLine($"REDIS CONNECTION STRING: {connStr}");
+        
         if (!string.IsNullOrEmpty(basePath))
         {
             var pathBase = new PathString(basePath);
