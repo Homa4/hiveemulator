@@ -22,8 +22,8 @@ internal class Program
                 .Enrich.FromLogContext()
                 .WriteTo.GrafanaLoki(
                     lokiUrl,
-                    credentials: new LokiCredentials { User = lokiUser, Password = lokiPassword },
-                    labels: new[] { new LokiLabel { Key = "app", Value = "communication-control" } }
+                    credentials: new GrafanaLokiCredentials { User = lokiUser, Password = lokiPassword },
+                    labels: new[] { new GrafanaLokiLabel { Key = "app", Value = "communication-control" } }
                 );
         });
 
