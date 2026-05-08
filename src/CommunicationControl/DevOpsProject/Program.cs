@@ -2,6 +2,7 @@ using DevOpsProject.CommunicationControl.API.DI;
 using DevOpsProject.CommunicationControl.API.Middleware;
 using Microsoft.OpenApi.Models;
 using Serilog;
+using Serilog.Sinks.GrafanaLoki;
 
 internal class Program
 {
@@ -10,9 +11,21 @@ internal class Program
         var builder = WebApplication.CreateBuilder(args);
         Serilog.Debugging.SelfLog.Enable(Console.Error);
         builder.Host.UseSerilog((context, services, loggerConfig) =>
-            loggerConfig.ReadFrom.Configuration(context.Configuration)
-                        .ReadFrom.Services(services)
-                        .Enrich.FromLogContext());
+        {
+            var lokiUrl = Environment.GetEnvironmentVariable("LOKI_URL") ?? "https://logs-prod-025.grafana.net";
+            var lokiUser = Environment.GetEnvironmentVariable("LOKI_USER") ?? "";
+            var lokiPassword = Environment.GetEnvironmentVariable("LOKI_PASSWORD") ?? "";
+
+            loggerConfig
+                .ReadFrom.Configuration(context.Configuration)
+                .ReadFrom.Services(services)
+                .Enrich.FromLogContext()
+                .WriteTo.GrafanaLoki(
+                    lokiUrl,
+                    credentials: new LokiCredentials { User = lokiUser, Password = lokiPassword },
+                    labels: new[] { new LokiLabel { Key = "app", Value = "communication-control" } }
+                );
+        });
 
         builder.Services.AddApiVersioningConfiguration();
 
