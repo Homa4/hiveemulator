@@ -8,7 +8,7 @@ internal class Program
     private static void Main(string[] args)
     {
         var builder = WebApplication.CreateBuilder(args);
-
+        Serilog.Debugging.SelfLog.Enable(Console.Error);
         builder.Host.UseSerilog((context, services, loggerConfig) =>
             loggerConfig.ReadFrom.Configuration(context.Configuration)
                         .ReadFrom.Services(services)
