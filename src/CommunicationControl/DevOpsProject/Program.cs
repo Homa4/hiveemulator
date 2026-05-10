@@ -23,7 +23,7 @@ internal class Program
                 .WriteTo.GrafanaLoki(
                     lokiUrl,
                     credentials: new GrafanaLokiCredentials { User = lokiUser, Password = lokiPassword },
-                    labels: new[] { new GrafanaLokiLabel { Key = "app", Value = "communication-control" } }
+                    labels: new Dictionary<string, string> { { "app", "communication-control" } }
                 );
         });
 
